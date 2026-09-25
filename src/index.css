@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: #08090D;
+  color: #FFFFFF;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* High contrast mode accessibility */
+.high-contrast-mode {
+  filter: contrast(1.15);
+}
+
+.high-contrast-mode div,
+.high-contrast-mode button,
+.high-contrast-mode aside,
+.high-contrast-mode nav {
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08090D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252D3D;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3B465C;
+}
+
+/* Safe area for mobile navigation */
+.safe-area-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
