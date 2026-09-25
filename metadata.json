@@ -1,6 +1,6 @@
 {
   "name": "CHROMA X – See Beyond Color",
   "description": "Ứng dụng hỗ trợ nhận biết, so sánh và phân biệt màu sắc dành cho người mù màu thông qua mã màu, ký hiệu, hoa văn và âm thanh.",
-  "requestFramePermissions": ["camera"],
+  "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

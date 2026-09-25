@@ -65,22 +65,27 @@ export const ChartView: React.FC = () => {
     canvas.height = img.naturalHeight || 400;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    const rect = img.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+    try {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    const x = Math.max(0, Math.min(canvas.width - 1, Math.floor((e.clientX - rect.left) * scaleX)));
-    const y = Math.max(0, Math.min(canvas.height - 1, Math.floor((e.clientY - rect.top) * scaleY)));
+      const rect = img.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
 
-    const pixel = ctx.getImageData(x, y, 1, 1).data;
-    const clamp = (v: number) => Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0').toUpperCase();
-    const hex = `#${clamp(pixel[0])}${clamp(pixel[1])}${clamp(pixel[2])}`;
+      const x = Math.max(0, Math.min(canvas.width - 1, Math.floor((e.clientX - rect.left) * scaleX)));
+      const y = Math.max(0, Math.min(canvas.height - 1, Math.floor((e.clientY - rect.top) * scaleY)));
 
-    const analyzed = analyzeColor(hex);
-    setSampledColor(analyzed);
-    addRecentColor(analyzed);
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      const clamp = (v: number) => Math.max(0, Math.min(255, v)).toString(16).padStart(2, '0').toUpperCase();
+      const hex = `#${clamp(pixel[0])}${clamp(pixel[1])}${clamp(pixel[2])}`;
+
+      const analyzed = analyzeColor(hex);
+      setSampledColor(analyzed);
+      addRecentColor(analyzed);
+    } catch (err) {
+      console.warn('Chart pixel sample failed:', err);
+    }
   };
 
   return (

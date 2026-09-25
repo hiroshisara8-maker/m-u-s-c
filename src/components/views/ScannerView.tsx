@@ -82,8 +82,8 @@ export const ScannerView: React.FC = () => {
       canvas.height = img.height * scale;
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      // Auto sample center pixel
-      samplePixelAt(canvas.width / 2, canvas.height / 2, true);
+      // Auto sample center pixel without triggering automatic toast/speech on mount
+      samplePixelAt(canvas.width / 2, canvas.height / 2, false);
     };
     img.onerror = () => {
       // Draw fallback colorful test card if external image fails
@@ -98,7 +98,7 @@ export const ScannerView: React.FC = () => {
         ctx.fillStyle = c;
         ctx.fillRect(40 + idx * 65, 120, 55, 160);
       });
-      samplePixelAt(300, 200, true);
+      samplePixelAt(300, 200, false);
     };
     img.src = src;
   }, []);
@@ -176,22 +176,26 @@ export const ScannerView: React.FC = () => {
   // Sample pixel from canvas
   const samplePixelAt = (x: number, y: number, saveToRecent: boolean = false) => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || canvas.width <= 0 || canvas.height <= 0) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
 
     const clampedX = Math.max(0, Math.min(canvas.width - 1, Math.floor(x)));
     const clampedY = Math.max(0, Math.min(canvas.height - 1, Math.floor(y)));
 
-    const pixel = ctx.getImageData(clampedX, clampedY, 1, 1).data;
-    const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
-    const analyzed = analyzeColor(hex);
+    try {
+      const pixel = ctx.getImageData(clampedX, clampedY, 1, 1).data;
+      const hex = rgbToHex(pixel[0], pixel[1], pixel[2]);
+      const analyzed = analyzeColor(hex);
 
-    setHoverColorHex(hex);
-
-    if (saveToRecent) {
+      setHoverColorHex(hex);
       setActiveColor(analyzed);
-      addRecentColor(analyzed);
+
+      if (saveToRecent) {
+        addRecentColor(analyzed);
+      }
+    } catch (err) {
+      console.warn('Canvas pixel sample failed:', err);
     }
   };
 
