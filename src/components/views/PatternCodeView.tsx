@@ -24,7 +24,20 @@ export const PatternCodeView: React.FC = () => {
   const patternList = Object.values(PATTERN_FAMILIES);
 
   const handleCopySymbol = (symbol: string, family: string) => {
-    navigator.clipboard.writeText(symbol);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(symbol).catch(() => {
+        try {
+          const el = document.createElement('textarea');
+          el.value = symbol;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+        } catch {
+          // ignore
+        }
+      });
+    }
     setCopiedFamily(family);
     setTimeout(() => setCopiedFamily(null), 1800);
   };

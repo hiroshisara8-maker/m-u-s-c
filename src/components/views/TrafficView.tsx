@@ -46,7 +46,7 @@ export const TrafficView: React.FC = () => {
   // Auto cycling
   useEffect(() => {
     if (!isAutoCycle) return;
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
 
     if (activeSignal === 'red') {
       timer = setTimeout(() => triggerSignal('green'), 5000);

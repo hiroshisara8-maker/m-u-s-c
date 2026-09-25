@@ -60,7 +60,20 @@ export const ScannerView: React.FC = () => {
 
   // Copy helper
   const handleCopy = (text: string, key: string) => {
-    navigator.clipboard.writeText(text);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(() => {
+        try {
+          const el = document.createElement('textarea');
+          el.value = text;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+        } catch {
+          // ignore
+        }
+      });
+    }
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 1800);
   };
@@ -144,7 +157,7 @@ export const ScannerView: React.FC = () => {
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play();
+        videoRef.current.play().catch(() => {});
       }
     } catch (err: unknown) {
       const errorMsg =
