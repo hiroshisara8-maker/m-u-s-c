@@ -70,6 +70,7 @@ export const ChartView: React.FC = () => {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       const rect = img.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
       const scaleX = canvas.width / rect.width;
       const scaleY = canvas.height / rect.height;
 

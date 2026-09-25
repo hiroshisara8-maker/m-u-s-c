@@ -2,7 +2,7 @@ import React from 'react';
 
 export const SvgPatternDefs: React.FC = () => {
   return (
-    <svg className="absolute w-0 h-0 pointer-events-none opacity-0" aria-hidden="true">
+    <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
       <defs>
         {/* Red: Diagonal stripes ///// */}
         <pattern id="pat-diagonal-stripe" width="12" height="12" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">

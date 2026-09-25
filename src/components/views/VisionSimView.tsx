@@ -106,7 +106,7 @@ export const VisionSimView: React.FC = () => {
   return (
     <div className="space-y-8 pb-16">
       {/* SVG Filters for instantaneous color matrix rendering */}
-      <svg className="absolute w-0 h-0 pointer-events-none opacity-0" aria-hidden="true">
+      <svg style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }} aria-hidden="true">
         <filter id="protanopia-filter">
           <feColorMatrix
             type="matrix"

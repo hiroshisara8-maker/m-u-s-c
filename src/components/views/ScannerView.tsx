@@ -190,6 +190,7 @@ export const ScannerView: React.FC = () => {
   const samplePixelAt = (x: number, y: number, saveToRecent: boolean = false) => {
     const canvas = canvasRef.current;
     if (!canvas || canvas.width <= 0 || canvas.height <= 0) return;
+    if (isNaN(x) || isNaN(y)) return;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) return;
 
@@ -217,6 +218,7 @@ export const ScannerView: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
@@ -230,6 +232,7 @@ export const ScannerView: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
@@ -246,6 +249,7 @@ export const ScannerView: React.FC = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 

@@ -110,6 +110,7 @@ export const OutfitView: React.FC = () => {
     if (!ctx) return;
 
     const rect = img.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
